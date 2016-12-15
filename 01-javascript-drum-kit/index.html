@@ -7,7 +7,7 @@
 </head>
 <body>
 
-<div class="keys">
+<div class="keys noselect">
     <div data-key="65" class="key">
         <kbd>A</kbd>
         <span class="sound">clap</span>
@@ -73,6 +73,11 @@
             audio.play();
         }
 
+        function soundKeyClick(e) {
+            var keyElem = e.target.closest('.key');
+            playSound({keyCode: keyElem.dataset.key});
+        }
+
         // Remove class after 'transition end' event fired
         function removeTransition(e) {
             if (e.propertyName !== 'transform') return;
@@ -81,6 +86,7 @@
 
         const keys = document.querySelectorAll('div[class="key"]');
         [].forEach.call(keys, (key) => key.addEventListener('transitionend', removeTransition));
+        [].forEach.call(keys, (key) => key.addEventListener('click', soundKeyClick));
 
         document.addEventListener('keydown', playSound);
 
