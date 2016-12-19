@@ -22,7 +22,7 @@
   <style>
 
     html {
-      background:#018DED url('https://s-media-cache-ak0.pinimg.com/originals/ed/40/aa/ed40aa1a34995ce14b0a7e57dc3f3b8c.jpg');
+      background:linear-gradient(to bottom, rgba(0, 86, 172, 0.84) 0%, rgba(222, 218, 9, 0.75) 100%);
       background-size:cover;
       font-family:'helvetica neue';
       text-align: center;
@@ -106,17 +106,18 @@
 
     function setDate() {
       const now = new Date();
+      const initHandAngle = 90;
 
       const seconds = now.getSeconds();
-      const secondsDegrees = ((seconds / 60) * 360) + 90;
+      const secondsDegrees = ((seconds / 60) * 360) + initHandAngle;
       secondHand.style.transform = `rotate(${secondsDegrees}deg)`;
 
       const mins = now.getMinutes();
-      const minsDegrees = ((mins / 60) * 360) + 90;
+      const minsDegrees = ((mins / 60) * 360) + initHandAngle;
       minsHand.style.transform = `rotate(${minsDegrees}deg)`;
 
       const hour = now.getHours();
-      const hourDegrees = ((hour / 12) * 360) + 90;
+      const hourDegrees = ((hour / 12) * 360) + initHandAngle;
       hourHand.style.transform = `rotate(${hourDegrees}deg)`;
     }
 
