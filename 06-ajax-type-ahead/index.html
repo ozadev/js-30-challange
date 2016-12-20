@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Type Ahead 👀</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <form class="search-form">
+    <input type="text" class="search" placeholder="City or State">
+    <ul class="suggestions">
+      <li>Filter for a city</li>
+      <li>or a state</li>
+    </ul>
+  </form>
+<script>
+  const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+
+  const dataArr = [];
+  const searchStr = document.querySelector('input.search');
+
+  function numberWithCommas(x) {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+  }
+
+  function showList (e) {
+
+    let htmlList = filterData(this.value).map((item) => {
+      const regex = new RegExp(this.value, 'gi');
+      const cityName = item.city.replace(regex, `<span class="hl">${this.value}</span>`);
+      const stateName = item.state.replace(regex, `<span class="hl">${this.value}</span>`);
+
+      return  `<li>
+                    <span class="name">${cityName}, ${stateName}</span>
+                    <span class="population">${numberWithCommas(item.population)}</span>
+              </li>`
+    }).join('');
+
+    document.querySelector('ul.suggestions').innerHTML = htmlList;
+  }
+
+  function filterData (searchStr) {
+    const regex = new RegExp(searchStr, 'gi');
+
+    return dataArr.filter((item) => {
+      return item.state.match(regex) || item.city.match(regex);
+    });
+
+  }
+
+  fetch(endpoint)
+          .then((res) => res.json())
+          .then((data) => dataArr.push(...data))
+          .catch((err) => {console.error(`Error during data fetch: ${err}`)});
+
+
+  searchStr.addEventListener('change', showList);
+  searchStr.addEventListener('keyup', showList);
+
+
+
+</script>
+  </body>
+</html>
